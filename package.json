@@ -1,0 +1,22 @@
+{
+  "name": "edge-detection-algorithms",
+  "version": "1.0.0",
+  "description": "Edge detection algorithms implementation in canvas using es6.",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/http-server -c-1"
+  },
+  "keywords": [],
+  "author": "Doni Rahma Tiana",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "bootstrap": "^4.5.2",
+    "es6-easings": "^1.1.0",
+    "es6-scroll-to": "^1.1.2",
+    "sweetalert2": "^9.17.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3"
+  }
+}

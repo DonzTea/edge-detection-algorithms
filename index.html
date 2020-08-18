@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Edge Detection Algorithms</title>
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./vendor/range-slider-master/css/rSlider.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./node_modules/sweetalert2/dist/sweetalert2.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body class="bg-light">
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1>Implementasi Algoritma Deteksi Tepi</h1>
+        </div>
+      </div>
+      <div id="filter-container" class="row mt-5">
+        <div class="col-sm-12 col-md-12 col-lg-6 text-center p-4">
+          <h2 class="mb-5">Rentang Local Treshold :</h2>
+          <input type="text" id="treshold-filter" class="slider" />
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 text-center p-4">
+          <h2 class="mb-5">Analisis Sejumlah Warna Terbanyak :</h2>
+          <input type="text" id="colors-filter" class="slider" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="upload-btn-wrapper">
+            <button class="btn-upload">Pilih Gambar</button>
+            <input type="file" id="fileInput" />
+            <button class="btn-submit">Deteksi Tepi</button>
+          </div>
+        </div>
+        <img id="imageSrc" alt="Original Image" width="300" class="d-none" />
+      </div>
+      <div id="canvas-layout" class="row my-5">
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="originalPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="grayscalePreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="differentialGradientPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="centerDifferencePreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="sobelPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="prewittPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="robertsPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="laplace1Preview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="laplace2Preview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="laplace3Preview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="laplaceOfGaussianPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+        <div
+          class="canvas-container hidden col-sm-12 col-md-6 col-lg-3 text-center"
+        >
+          <canvas id="cannyPreview"></canvas>
+          <div class="canvas-title"></div>
+          <div class="pixel-analysis">
+            <p class="m-0"></p>
+            <ol class="mt-2"></ol>
+          </div>
+          <div class="pixels-measurement text-center mb-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <button id="btn-scroll-up" class="btn btn-info">
+      <i class="fas fa-chevron-up align-top"></i>
+    </button>
+
+    <script src="./vendor/range-slider-master/js/rSlider.min.js"></script>
+    <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="./js/main.js" type="module"></script>
+  </body>
+</html>
